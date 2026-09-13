@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition Attendance System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Toast notification container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Navigation bar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                FaceAttend
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#attendence">Attendance</a></li>
+                <li><a href="#students">Students</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Face Recognition<br>Attendance System</h1>  
+            
+            <p>
+              Mark student attendance automatically using AI face recognition technology. Register students, snap facial samples, and track attendance in real-time.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#attendence" class="btn primary-btn">
+                    Start Attendance
+                </a>
+
+                <a href="#students" class="btn secondary-btn">
+                    Manage Students
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard section -->
+     <section class="dashboard">
+        <h2>Dashboard</h2>
+
+        <div class="dashboard-container">
+            <div class="card">
+                <h3>Total Students</h3>
+                <p id="totalstudents">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Present Today</h3>
+                <p id="presentstudents">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Absent Today</h3>
+                <p id="absentstudents">0</p>
+            </div>
+        </div>
+     </section>
+    
+    <!-- Attendance section -->
+    <section id="attendence" class="attendence-section">
+
+        <h2>Take Attendance</h2>
+
+        <div class="attendence-container">
+
+            <!-- Camera Box -->
+            <div class="camera-box">
+                <h3>Face Recognition Camera</h3>
+
+                <div class="camera">
+                    <video id="camera" autoplay playsinline muted></video>
+                    <div class="camera-message">
+                        Camera Preview (Click "Start Camera" below)
+                    </div>
+                </div>
+
+                <div class="camera-buttons">
+                    <button id="startcamera" class="btn primary-btn">
+                        🎥 Start Camera
+                    </button>
+                    <button id="stopcamera" class="btn danger-btn">
+                        ⏹️ Stop Camera
+                    </button>
+                </div>
+
+                <!-- Face Capture Toolbar -->
+                <div class="face-capture-card">
+                    <h4>📸 Register Student Face</h4>
+                    <p class="capture-hint">
+                        Turn camera on, select a registered student, and capture face photos for AI training:
+                    </p>
+                    <div class="capture-row">
+                        <select id="studentSelect" class="student-select">
+                            <option value="">-- Choose Student --</option>
+                        </select>
+                        <button id="captureFaceBtn" class="btn secondary-btn" type="button">
+                            📸 1x Photo
+                        </button>
+                        <button id="burstCaptureBtn" class="btn primary-btn" type="button" title="Captures 5 sample angles for better accuracy">
+                            ⚡ 5x Burst Capture
+                        </button>
+                    </div>
+                    <div id="captureProgress" class="capture-progress"></div>
+                </div>
+            </div>
+
+            <!-- Recognition Result -->
+            <div class="recognition-box">
+                <h3>Recognition Result</h3>
+
+                <div class="student-result">
+                    <div class="profile-circle" id="profileIcon">
+                       👤 
+                    </div>
+
+                    <h3 id="recognizedName">
+                        No Student Detected
+                    </h3>
+
+                    <p id="recognizedRoll">
+                        Roll Number: -
+                    </p>
+
+                    <p id="recognitionStatus" class="recognition-status-text">
+                        Status: Camera is off
+                    </p>
+                </div>
+
+                <button id="markAttandence" class="btn success-btn">
+                    ✅ Mark Attendance
+                </button>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Attendance Table -->
+    <section class="attendence-records">
+
+        <h2>Today's Attendance</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                       <th>S.No.</th>
+                       <th>Student Name</th>
+                       <th>Roll Number</th>
+                       <th>Date</th>
+                       <th>Time</th>
+                       <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="attendenceTable">
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: #888;">
+                            No attendance marked yet today.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Student Section -->
+    <section id="students" class="student-section">
+        <h2>Students Management</h2>
+        
+        <div class="student-container">
+
+            <!-- Register Student -->
+            <div class="register-card">
+                <h3>Register New Student</h3>
+
+                <form id="studentForm">
+                    <label for="studentName">
+                        Student Name
+                    </label>
+                    <input
+                        type="text"
+                        id="studentName"
+                        name="studentName"
+                        placeholder="e.g. Palak Sharma"
+                        required
+                    >
+
+                    <label for="studentClass">
+                        Class / Branch
+                    </label>
+                    <input
+                        type="text"
+                        id="studentClass"
+                        name="studentClass"
+                        placeholder="e.g. B.Tech CSE"
+                        required
+                    >
+
+                    <button 
+                        type="submit"
+                        class="btn primary-btn"
+                        style="width: 100%;">
+                        ➕ Register Student
+                    </button>
+                </form>
+            </div>
+
+            <!-- Student List -->
+            <div class="student-list">
+                <h3>Registered Students</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Roll</th>
+                            <th>Name</th>
+                            <th>Class</th>
+                            <th>Face Data</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="studentTable">
+                        <tr>
+                            <td colspan="5" style="text-align:center; color:#888;">
+                                Loading students...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <h2>About Project</h2>
+
+        <p>
+            This Face Recognition Attendance System uses computer vision (OpenCV Haar Cascades & LBPH) 
+            to automatically detect, identify students, and mark attendance in real-time.
+            Designed for educational institutes and classrooms.
+        </p>
+
+        <div class="technology-list">
+            <span>Python Flask</span>
+            <span>OpenCV (LBPH)</span>
+            <span>Computer Vision</span>
+            <span>HTML5</span>
+            <span>CSS3</span>
+            <span>JavaScript</span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p> 
+            2026 FaceAttend - Face Recognition Attendance System
+        </p>
+    </footer>
+
+    <!-- JavaScript files -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Data / User Generated Files (privacy)
+data/faces/
+data/face_model.yml
+data/students.json
+data/attendance.json
+
+# Keep haarcascade XML file tracked
+!data/haarcascade_frontalface_default.xml
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor files
+.vscode/
+.idea/
+*.swp
