@@ -222,12 +222,26 @@ def register_student():
     data = request.get_json() or {}
     name = data.get("name", "").strip()
     student_class = data.get("class", "").strip()
+    roll_input = data.get("roll")
 
     if not name or not student_class:
         return jsonify({"success": False, "message": "Name and Class are required."}), 400
 
     students = load_students()
-    roll = 101 if not students else max(s["roll"] for s in students) + 1
+
+    # Process Roll Number
+    if roll_input is not None and str(roll_input).strip() != "":
+        try:
+            roll = int(roll_input)
+            if roll <= 0:
+                return jsonify({"success": False, "message": "Roll number must be greater than 0."}), 400
+        except ValueError:
+            return jsonify({"success": False, "message": "Invalid roll number."}), 400
+
+        if any(s["roll"] == roll for s in students):
+            return jsonify({"success": False, "message": f"Roll number #{roll} is already registered!"}), 400
+    else:
+        roll = 101 if not students else max(s["roll"] for s in students) + 1
 
     student = {
         "name": name,

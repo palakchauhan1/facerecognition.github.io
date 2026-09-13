@@ -287,11 +287,12 @@ markAttendanceBtn.addEventListener('click', async function () {
 studentForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
+    const rollInput = document.getElementById('studentRoll').value.trim();
     const name = document.getElementById('studentName').value.trim();
     const studentClass = document.getElementById('studentClass').value.trim();
 
-    if (!name || !studentClass) {
-        showToast('Please provide both student name and class.', 'error');
+    if (!rollInput || !name || !studentClass) {
+        showToast('Please provide Roll Number, Student Name, and Class.', 'error');
         return;
     }
 
@@ -299,7 +300,7 @@ studentForm.addEventListener('submit', async function (e) {
         const res = await fetch(`${API_BASE}/students`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, class: studentClass })
+            body: JSON.stringify({ roll: rollInput, name, class: studentClass })
         });
 
         const data = await res.json();
