@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition Attendance System - Live Showcase</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .banner {
+            background: #252525;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .banner a {
+            color: #d4a373;
+            font-weight: 700;
+            text-decoration: underline;
+            margin-left: 6px;
+        }
+        .demo-tag {
+            display: inline-block;
+            background: #e9edc9;
+            color: #2b3a1a;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="banner">
+        🌟 <strong>Live Project Showcase:</strong> Face Recognition Attendance System | 
+        <a href="https://github.com/palakchauhan1/facerecognition.github.io" target="_blank">View Python Source Code on GitHub ↗</a>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                FaceAttend
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#attendance">Attendance Demo</a></li>
+                <li><a href="#students">Student Registration</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="https://github.com/palakchauhan1/facerecognition.github.io" target="_blank" style="color: #000; font-weight: 700;">GitHub Repo</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <span class="demo-tag">AI &amp; Computer Vision Project</span>
+            <h1>Face Recognition<br>Attendance System</h1>
+            <p>
+                Mark student attendance automatically using state-of-the-art face recognition technology.
+                Built with Python Flask, OpenCV, dlib &amp; SQLite.
+            </p>
+            <div class="hero-buttons">
+                <a href="#attendance" class="btn primary-btn">
+                    Try Live Camera Demo
+                </a>
+                <a href="#students" class="btn secondary-btn">
+                    Register Student
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section class="dashboard">
+        <div class="dashboard-grid">
+            <div class="dash-card">
+                <h3>Total Students</h3>
+                <p id="totalStudents">1</p>
+            </div>
+            <div class="dash-card">
+                <h3>Present Today</h3>
+                <p id="presentStudents">1</p>
+            </div>
+            <div class="dash-card">
+                <h3>Absent Today</h3>
+                <p id="absentStudents">0</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Attendance Section -->
+    <section id="attendance" class="attendance-section">
+        <h2>Live Attendance Demo</h2>
+        <p class="section-desc">
+            Test the webcam integration directly in your browser. (The full AI face matching runs via Flask backend locally).
+        </p>
+
+        <div class="attendance-grid">
+            <!-- Camera Card -->
+            <div class="camera-card">
+                <h3>Webcam Feed</h3>
+                <div class="camera-wrapper">
+                    <video id="camera" autoplay playsinline></video>
+                </div>
+                <div class="camera-buttons">
+                    <button id="startCamera" class="btn primary-btn">
+                        Start Camera
+                    </button>
+                    <button id="stopCamera" class="btn secondary-btn">
+                        Stop Camera
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recognition Card -->
+            <div class="recognition-card">
+                <h3>Recognition Status</h3>
+                <div class="recognition-details">
+                    <p><strong>Recognized Student:</strong></p>
+                    <p id="recognizedName" class="highlight-text">Palak</p>
+                    <p><strong>Roll Number:</strong></p>
+                    <p id="recognizedRoll">102</p>
+                    <p id="recognitionStatus" class="status-text">Status: Ready to Mark</p>
+                </div>
+                <button id="markAttendance" class="btn primary-btn full-btn">
+                    Mark Attendance
+                </button>
+            </div>
+        </div>
+
+        <!-- Attendance Records -->
+        <div class="records-container">
+            <h3>Today's Attendance Logs</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Roll Number</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceTable">
+                    <tr>
+                        <td>Palak</td>
+                        <td>102</td>
+                        <td>2026-09-28</td>
+                        <td>08:40 PM</td>
+                        <td><span style="color: #2b7a3e; font-weight: 600;">Present</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Student Registration Section -->
+    <section id="students" class="students-section">
+        <h2>Student Management</h2>
+        <div class="students-grid">
+            <div class="student-form-card">
+                <h3>Register Student</h3>
+                <form id="studentForm">
+                    <label for="studentName">Student Name</label>
+                    <input type="text" id="studentName" placeholder="Enter student name" required>
+
+                    <label for="rollNumber">Roll Number</label>
+                    <input type="text" id="rollNumber" placeholder="Enter roll number" required>
+
+                    <label for="studentClass">Class / Branch</label>
+                    <input type="text" id="studentClass" placeholder="Enter class or branch" required>
+
+                    <button type="submit" class="btn primary-btn">
+                        Register Student
+                    </button>
+                </form>
+            </div>
+
+            <div class="student-list">
+                <h3>Registered Students</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Roll Number</th>
+                            <th>Class</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTable">
+                        <tr>
+                            <td>Palak</td>
+                            <td>102</td>
+                            <td>B tech</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <h2>About Project</h2>
+        <p>
+            FaceAttend is an automated Face Recognition Attendance System designed to identify students and record attendance using computer vision.
+            This project uses deep face encodings (128-dimensional embeddings) to ensure high recognition accuracy.
+        </p>
+        <div class="technology-list">
+            <span>Python</span>
+            <span>Flask</span>
+            <span>OpenCV</span>
+            <span>Face Recognition (dlib)</span>
+            <span>SQLite</span>
+            <span>HTML5</span>
+            <span>CSS3</span>
+            <span>JavaScript</span>
+        </div>
+        <div style="margin-top: 25px;">
+            <a href="https://github.com/palakchauhan1/facerecognition.github.io" target="_blank" class="btn primary-btn">
+                ⭐ Star on GitHub
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            © 2026 FaceAttend | Created by Palak Chauhan | <a href="https://github.com/palakchauhan1" target="_blank" style="color: inherit;">GitHub Profile</a>
+        </p>
+    </footer>
+
+    <!-- Interactive JS for GitHub Pages Preview -->
+    <script>
+        const camera = document.getElementById("camera");
+        const startCameraBtn = document.getElementById("startCamera");
+        const stopCameraBtn = document.getElementById("stopCamera");
+        const markAttendanceBtn = document.getElementById("markAttendance");
+        const recognitionStatus = document.getElementById("recognitionStatus");
+        const attendanceTable = document.getElementById("attendanceTable");
+        const studentForm = document.getElementById("studentForm");
+        const studentTable = document.getElementById("studentTable");
+        let stream = null;
+
+        startCameraBtn.addEventListener("click", async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                camera.srcObject = stream;
+                recognitionStatus.textContent = "Status: Camera Active (Live Stream)";
+            } catch (err) {
+                alert("Please grant camera permissions to test webcam.");
+            }
+        });
+
+        stopCameraBtn.addEventListener("click", () => {
+            if (stream) {
+                stream.getTracks().forEach(t => t.stop());
+                stream = null;
+            }
+            camera.srcObject = null;
+            recognitionStatus.textContent = "Status: Camera Stopped";
+        });
+
+        markAttendanceBtn.addEventListener("click", () => {
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateStr = new Date().toISOString().split('T')[0];
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>Palak</td>
+                <td>102</td>
+                <td>${dateStr}</td>
+                <td>${timeStr}</td>
+                <td><span style="color: #2b7a3e; font-weight: 600;">Present</span></td>
+            `;
+            attendanceTable.prepend(row);
+            alert("Attendance marked successfully for Palak (Roll #102)!");
+        });
+
+        studentForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("studentName").value.trim();
+            const roll = document.getElementById("rollNumber").value.trim();
+            const sClass = document.getElementById("studentClass").value.trim();
+
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${name}</td><td>${roll}</td><td>${sClass}</td>`;
+            studentTable.appendChild(row);
+
+            const countEl = document.getElementById("totalStudents");
+            countEl.textContent = parseInt(countEl.textContent || "1") + 1;
+
+            alert(`Student '${name}' registered successfully! (Clone repo and run 'python app.py' for real-time face training).`);
+            studentForm.reset();
+        });
+    </script>
+</body>
+</html>
