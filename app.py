@@ -563,10 +563,14 @@ def reload_encodings():
     })
 
 
+# Initialize DB and Encodings at startup (for Gunicorn & Direct execution)
+create_table()
+load_known_faces()
+
+
 # RUN APPLICATION
 
 
 if __name__ == "__main__":
-    create_table()
-    load_known_faces()
-    app.run(debug=True, port=5050)
+    port = int(os.environ.get("PORT", 5050))
+    app.run(debug=True, host="0.0.0.0", port=port)
